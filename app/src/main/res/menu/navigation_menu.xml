@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/orders"
+        android:title="Encomendas"
+        android:icon="@drawable/ic_outline_receipt_long_black_24dp"
+        />
+
+    <item
+        android:id="@+id/catalog"
+        android:title="Catalogo"
+        android:icon="@drawable/ic_outline_list_alt_black_24dp"
+        />
+
+    <item
+        android:id="@+id/profile"
+        android:title="Perfil"
+        android:icon="@drawable/ic_outline_person_24"
+        />
+
+</menu>

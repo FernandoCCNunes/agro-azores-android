@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#00FF47</color>
+    <color name="colorPrimaryDark">#00A32E</color>
+    <color name="colorAccent">#03DAC5</color>
+
+
+    <color name="colorLightGreen">#DDFFE7</color>
+
+    <color name="colorBackground">#F5F5F5</color>
+
+    <color name="colorBlack3Percent">#08000000</color>
+
+    <color name="colorBlack10Percent">#1A000000</color>
+
+    <color name="light_button_background">#DDFFE7</color>
+
+    <color name="white">#fff</color>
+    <color name="white_54">#8AFFFFFF</color>
+
+    <color name="card_color">#F0F0F0</color>
+
+    <color name="dark_grey">#202020</color>
+    <color name="colorLightGrey">#D6D6D6</color>
+    <color name="black">#000</color>
+    <color name="black_54">#8A000000</color>
+</resources>
