@@ -3,28 +3,43 @@ package pt.tetrapi.fgf.agroazores.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import android.widget.AdapterView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.nando.debug.Debug
+import androidx.lifecycle.Lifecycle
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.google.android.material.tabs.TabLayoutMediator
 import pt.tetrapi.fgf.agroazores.AppData
-import pt.tetrapi.fgf.agroazores.R
 import pt.tetrapi.fgf.agroazores.activities.NewProductActivity
 import pt.tetrapi.fgf.agroazores.databinding.FragmentCatalogBinding
-import java.io.Serializable
+import pt.tetrapi.fgf.agroazores.models.Product
+import tech.hibk.searchablespinnerlibrary.SearchableItem
+
 
 class CatalogFragment : Fragment() {
 
     private lateinit var xml: FragmentCatalogBinding
 
-    private lateinit var adapter: ViewPagerAdapter
+    private lateinit var adapter: ScreenSlidePagerAdapter
 
-    var stockForSaleRefreshListener: (() -> Unit)? = null
-    var stockFutureRefreshListener: (() -> Unit)? = null
+    var selectedProduct: Product? = null
+        set(value) {
+            field = value
+            refreshLists()
+        }
+    var canEditProduct = false
+    var selectedFilter: String? = null
+        set(value) {
+            field = value
+            refreshLists()
+        }
+    var canEditFilter = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,22 +51,26 @@ class CatalogFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupOrderSections()
         setupViewPager()
+        setupListFilters()
         setupNewProductButton()
+        setupProductSelector()
     }
 
-    private fun setupOrderSections() {
-        xml.forSale.setOnClickListener {
-            xml.forSale.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark))
-            xml.inProduction.setTextColor(ContextCompat.getColor(requireContext(), R.color.black_54))
-            xml.viewPager.setCurrentItem(0, true)
-        }
+    private fun setupListFilters() {
+        val filters: List<SearchableItem> = listOf(
+            SearchableItem(0.toLong(), "Data"),
+            SearchableItem(1.toLong(), "Preço"),
+            SearchableItem(2.toLong(), "Pontuação")
+        )
 
-        xml.inProduction.setOnClickListener {
-            xml.inProduction.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark))
-            xml.forSale.setTextColor(ContextCompat.getColor(requireContext(), R.color.black_54))
-            xml.viewPager.setCurrentItem(1, true)
+        xml.filters.items = filters
+        xml.filters.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                if (canEditFilter) selectedFilter = filters[p2].title
+                else canEditFilter = true
+            }
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
     }
 
@@ -59,23 +78,49 @@ class CatalogFragment : Fragment() {
         if (AppData.user.isProducer()) {
             xml.addProductBtn.visibility = View.VISIBLE
             xml.addProductBtn.setOnClickListener {
-                startActivityForResult(Intent(requireContext(), NewProductActivity::class.java), 100)
+                startActivityForResult(
+                    Intent(requireContext(), NewProductActivity::class.java),
+                    100
+                )
+            }
+        }
+    }
+
+    private fun setupProductSelector() {
+        if (AppData.user.isRetailer()) {
+            xml.selectProductContainer.visibility = View.VISIBLE
+
+            val productsName: List<SearchableItem> = AppData.products.map { SearchableItem(it.id.toLong(),it.name) }
+            xml.products.items = productsName
+            xml.products.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    if (canEditProduct) selectedProduct = AppData.products[p2]
+                    else canEditProduct = true
+                }
+                override fun onNothingSelected(p0: AdapterView<*>?) {}
             }
         }
     }
 
     private fun setupViewPager() {
-        adapter = ViewPagerAdapter(
-            this,
-            requireActivity().supportFragmentManager,
-            FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT,
-        )
+        adapter = ScreenSlidePagerAdapter(this, requireActivity())
         xml.viewPager.adapter = adapter
+        TabLayoutMediator(xml.viewPagerTab, xml.viewPager) { tab, position ->
+            tab.text = when(position){
+                0 -> "À Venda"
+                else -> "Em Produção"
+            }
+        }.attach()
     }
 
     private fun refreshLists() {
-        stockForSaleRefreshListener?.invoke()
-        stockFutureRefreshListener?.invoke()
+        for (i in 0 until adapter.itemCount) {
+            val fragment: Fragment = requireActivity().supportFragmentManager.findFragmentByTag("f$i") ?: continue
+            when(fragment) {
+                is CatalogForSaleFragment -> fragment.getStockAvailable()
+                is CatalogFutureFragment -> fragment.getStockFuture()
+            }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -85,11 +130,10 @@ class CatalogFragment : Fragment() {
         }
     }
 
-    class ViewPagerAdapter(val fragment: CatalogFragment, fm: FragmentManager, behavior: Int): FragmentStatePagerAdapter(fm, behavior) {
+    private inner class ScreenSlidePagerAdapter(val fragment: CatalogFragment, fa: FragmentActivity) : FragmentStateAdapter(fa) {
+        override fun getItemCount(): Int = 2
 
-        override fun getCount(): Int = 2
-
-        override fun getItem(position: Int): Fragment {
+        override fun createFragment(position: Int): Fragment {
             return when(position) {
                 0 -> CatalogForSaleFragment.newInstance().apply { parent = fragment }
                 else -> CatalogFutureFragment.newInstance().apply { parent = fragment }

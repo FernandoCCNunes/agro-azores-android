@@ -49,6 +49,14 @@ data class User(
         }
     }
 
+    suspend fun getAllStockAvailable() = withContext(Dispatchers.Main) {
+        val response = Api.getUserStockAvailable(id)
+        val result = Api.getData(response)
+        if (response.isSuccessful) {
+            stockAvailable = Api.gson.fromJson(result , Array<Stock>::class.java).toList()
+        }
+    }
+
     suspend fun getStockFuture() = withContext(Dispatchers.Main) {
         val response = Api.getUserStockFuture(id)
         val result = Api.getData(response)

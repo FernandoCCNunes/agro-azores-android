@@ -64,4 +64,6 @@ dependencies {
 
     implementation 'tech.hibk.searchablespinnerlibrary:searchablespinnerlibrary:1.0.1'
 
+    implementation 'com.github.chivorns.androidx:smartmaterialspinner:1.2.1'
+
 }

@@ -19,13 +19,14 @@ import pt.tetrapi.fgf.agroazores.activities.CreateReservationActivity
 import pt.tetrapi.fgf.agroazores.databinding.*
 import pt.tetrapi.fgf.agroazores.interfaces.CatalogInterface
 import pt.tetrapi.fgf.agroazores.network.Api
+import pt.tetrapi.fgf.agroazores.objects.Constants
 
 
 class CatalogForSaleFragment : Fragment(), CatalogInterface {
 
-    private lateinit var xml: FragmentCatalogInProductionBinding
+    private lateinit var xml: FragmentCatalogForSaleBinding
 
-    private lateinit var adapter: Adapter
+    private lateinit var adapter: SellerAdapter
 
     lateinit var parent: CatalogFragment
 
@@ -33,42 +34,92 @@ class CatalogForSaleFragment : Fragment(), CatalogInterface {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        xml = FragmentCatalogInProductionBinding.inflate(inflater, container, false)
+        xml = FragmentCatalogForSaleBinding.inflate(inflater, container, false)
         return xml.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getStockAvailable()
+        setupList()
     }
 
-    private fun getStockAvailable() {
+    fun getStockAvailable() {
         CoroutineScope(Dispatchers.Main).launch {
-            if (AppData.user.stockAvailable.isEmpty()) {
-                AppData.user.getStockAvailable()
+            setLoadingView()
+            AppData.user.getStockAvailable()
+            if (AppData.user.stockFuture.isEmpty()) {
+                if (AppData.user.isRetailer()) {
+                    inflateAndShowRetailerEmptyView()
+                }
+
+                if (AppData.user.isProducer()) {
+                    inflateAndShowProducerEmptyView()
+                }
+            } else {
+                adapter.notifyDataSetChanged()
+                if (xml.root.nextView == xml.root.getChildAt(0)) {
+                    xml.root.showNext()
+                }
             }
-            setupList()
         }
     }
 
     private fun setupList() {
-        adapter = Adapter(requireContext(), this@CatalogForSaleFragment)
-        xml.list.adapter = adapter
-        xml.list.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-        parent.stockForSaleRefreshListener = { refreshList() }
-
+        if (!this::adapter.isInitialized) {
+            adapter = SellerAdapter(requireContext(), this@CatalogForSaleFragment)
+            xml.list.adapter = adapter
+            xml.list.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+        }
     }
 
-    private fun refreshList() {
-        if (this::adapter.isInitialized) {
-            CoroutineScope(Dispatchers.Main).launch {
-                AppData.user.getStockAvailable()
-                adapter.notifyDataSetChanged()
+    private fun setLoadingView() {
+        if (AppData.user.ordersPending.isEmpty()) {
+            xml.emptyCatalogView.removeAllViews()
+            val xml = ViewLoadingBinding.inflate(LayoutInflater.from(requireContext()), xml.emptyCatalogView, true)
+            xml.message.text = if (parent.selectedProduct != null) {
+                "Buscando stock de  ${parent.selectedProduct!!.name} disponível"
+            } else {
+                "Buscando stock disponível"
+            }
+            if (this.xml.root.nextView == this.xml.root.getChildAt(1)) {
+                this.xml.root.showNext()
             }
         }
     }
 
-    class Adapter(private val context: Context, private val fragment: CatalogForSaleFragment): RecyclerView.Adapter<CatalogInterface.ViewHolder>() {
+    private fun inflateAndShowRetailerEmptyView() {
+        xml.emptyCatalogView.removeAllViews()
+        val xml = ViewCatalogBuyerEmptyBinding.inflate(LayoutInflater.from(requireContext()), xml.emptyCatalogView, true)
+        xml.catalogMessage.text = if (parent.selectedProduct == null) {
+            "Não existe stock disponível"
+        } else {
+            "Não existe stock de ${parent.selectedProduct!!.name}s disponível"
+        }
+        xml.makeReservation.setOnClickListener {
+            // Add New create reservation for product
+        }
+        if (this.xml.root.nextView == this.xml.root.getChildAt(1)) {
+            this.xml.root.showNext()
+        }
+    }
+
+    private fun inflateAndShowProducerEmptyView() {
+        xml.emptyCatalogView.removeAllViews()
+        val xml = ViewCatalogSellerEmptyBinding.inflate(layoutInflater, xml.emptyCatalogView, true)
+        xml.catalogMessage.text = "Não tens produtos disponiveis"
+        if (this.xml.root.nextView == this.xml.root.getChildAt(1)) {
+            this.xml.root.showNext()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (this::adapter.isInitialized) {
+            getStockAvailable()
+        }
+    }
+
+    class SellerAdapter(private val context: Context, private val fragment: CatalogForSaleFragment): RecyclerView.Adapter<CatalogInterface.ViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatalogInterface.ViewHolder {
             return CatalogInterface.ViewHolder.getViewHolder(getViewTypeForUser(), context, parent)
@@ -90,7 +141,7 @@ class CatalogForSaleFragment : Fragment(), CatalogInterface {
             holder.xml.product.text = stock.product.name
             holder.xml.dateValue.text = stock.date
             holder.xml.price.text = stock.priceString
-            holder.xml.quantity.text = stock.quantityString
+            holder.xml.quantity.text = stock.quantityLeftString
         }
 
         private fun onBindViewHolder(holder: CatalogInterface.ViewHolder.BuyerViewHolder, position: Int) {
@@ -100,10 +151,16 @@ class CatalogForSaleFragment : Fragment(), CatalogInterface {
             holder.xml.producer.text = stock.product.name
             holder.xml.date.text = stock.date
             holder.xml.price.text = stock.priceString
-            holder.xml.quantity.text = stock.quantityString
+            holder.xml.quantity.text = stock.quantityLeftString
 
             holder.itemView.setOnClickListener {
-                fragment.requireContext().startActivity(Intent(fragment.requireContext(), CreateReservationActivity::class.java))
+                fragment.requireContext().startActivity(
+                    Intent(
+                        fragment.requireContext(),
+                        CreateReservationActivity::class.java
+                    )
+                        .putExtra(Constants.STOCK, stock.toJson())
+                )
             }
         }
 

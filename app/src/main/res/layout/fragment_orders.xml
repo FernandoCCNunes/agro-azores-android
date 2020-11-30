@@ -14,38 +14,60 @@
         android:background="@drawable/round_top_white_background"
         android:elevation="25dp">
 
-        <com.google.android.flexbox.FlexboxLayout
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/viewPagerTab"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            app:alignItems="center"
-            app:flexWrap="nowrap"
-            app:justifyContent="space_evenly">
+            android:layout_height="wrap_content"
+            app:tabMode="fixed"
+            app:tabGravity="fill"
+            android:background="@drawable/round_top_white_background"
+            app:tabSelectedTextColor="@color/colorPrimaryDark"
+            app:tabIndicatorColor="@color/colorPrimaryDark"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
 
             <TextView
-                android:id="@+id/pending"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pendentes"
-                android:textColor="@color/colorPrimaryDark"
+                android:layout_width="70dp"
+                android:layout_height="48dp"
+                android:gravity="start|center_vertical"
+                android:text="Filtro:"
                 android:textStyle="bold"
-                android:textSize="18sp"
-                android:layout_gravity="center"
-                />
+                android:layout_marginStart="16dp"/>
 
-            <TextView
-                android:id="@+id/completed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Completadas"
-                android:textStyle="bold"
-                android:textColor="@color/black_54"
-                android:textSize="18sp"/>
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                app:cardCornerRadius="8dp"
+                app:strokeWidth="2dp"
+                app:strokeColor="@color/black_54"
+                android:background="@color/colorBlack3Percent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp">
 
-        </com.google.android.flexbox.FlexboxLayout>
+                <tech.hibk.searchablespinnerlibrary.SearchableSpinner
+                    android:id="@+id/filters"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    app:dialogTitle="Selecionar filtro"
+                    app:cancelButtonColor="@color/colorPrimaryDark"
+                    app:cancelButtontext="Fechar"
+                    app:onlyLightTheme="false"
+                    app:nothingSelectedText="Selecionar filtro"/>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <androidx.viewpager.widget.ViewPager
+    <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

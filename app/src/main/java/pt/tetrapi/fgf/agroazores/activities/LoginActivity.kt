@@ -34,7 +34,7 @@ class LoginActivity: Activity() {
     private fun setupLoginButton() {
         xml.loginBtn.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
-                val response = Api.getUser(100)
+                val response = Api.getUser(5)
                 val result = Api.getData(response)
                 if (response.isSuccessful) {
                     AppData.user = User.fromJson(result)

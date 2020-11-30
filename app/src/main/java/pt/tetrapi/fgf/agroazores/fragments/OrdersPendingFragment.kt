@@ -15,8 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pt.tetrapi.fgf.agroazores.AppData
 import pt.tetrapi.fgf.agroazores.R
-import pt.tetrapi.fgf.agroazores.databinding.CardOrderPendingBinding
-import pt.tetrapi.fgf.agroazores.databinding.FragmentOrdersPendingBinding
+import pt.tetrapi.fgf.agroazores.databinding.*
 import pt.tetrapi.fgf.agroazores.network.Api
 
 class OrdersPendingFragment : Fragment() {
@@ -24,6 +23,8 @@ class OrdersPendingFragment : Fragment() {
     private lateinit var xml: FragmentOrdersPendingBinding
 
     private lateinit var adapter: Adapter
+
+    lateinit var parent: OrdersFragment
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,17 +36,57 @@ class OrdersPendingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getOrdersPending()
+        setupList()
     }
 
     private fun getOrdersPending() {
         CoroutineScope(Dispatchers.Main).launch {
-            if (AppData.user.ordersPending.isEmpty()) {
-                AppData.user.getOrdersPending()
+            setLoadingView()
+            AppData.user.getOrdersPending()
+            if (AppData.user.stockAvailable.isEmpty()) {
+                inflateAndShowEmptyView()
+            } else {
+                adapter.notifyDataSetChanged()
+                if (xml.root.nextView == xml.root.getChildAt(0)) {
+                    xml.root.showNext()
+                }
             }
+        }
+    }
+
+    private fun setupList() {
+        if (!this::adapter.isInitialized) {
             adapter = Adapter(requireContext())
             xml.list.adapter = adapter
             xml.list.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+        }
+    }
+
+    private fun setLoadingView() {
+        if (AppData.user.ordersPending.isEmpty()) {
+            xml.emptyOrderView.removeAllViews()
+            val xml = ViewLoadingBinding.inflate(LayoutInflater.from(requireContext()), xml.emptyOrderView, true)
+            xml.message.text = "Buscando encomendas pendentes"
+            if (this.xml.root.nextView == this.xml.root.getChildAt(1)) {
+                this.xml.root.showNext()
+            }
+        }
+    }
+
+    private fun inflateAndShowEmptyView() {
+        xml.emptyOrderView.removeAllViews()
+        val xml = ViewOrdersEmptyBinding.inflate(LayoutInflater.from(requireContext()), this.xml.emptyOrderView, true)
+        xml.message.text = "Tens 0 encomendas pendentes neste momento"
+
+        if (this.xml.root.nextView == this.xml.root.getChildAt(1)) {
+            this.xml.root.showNext()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (this::adapter.isInitialized) {
+            getOrdersPending()
         }
     }
 

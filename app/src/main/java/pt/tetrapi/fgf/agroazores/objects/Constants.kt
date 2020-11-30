@@ -9,4 +9,9 @@ package pt.tetrapi.fgf.agroazores.objects
 
 object Constants {
 
+
+
+
+    const val STOCK = "STOCK"
+
 }
