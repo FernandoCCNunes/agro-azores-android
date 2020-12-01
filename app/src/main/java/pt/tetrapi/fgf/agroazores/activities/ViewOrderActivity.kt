@@ -59,8 +59,7 @@ class ViewOrderActivity : AppCompatActivity() {
     private fun setupContent() {
         xml.quantity.text = order.quantityString
         xml.price.text = order.priceString
-        //val cal = getDate(order.date, getTimezonePattern())
-        xml.date.text = order.dateString //translateDate(cal)
+        xml.date.text = translateDate(getDate(order.date, "yyyy-MM-dd HH:mm:ss"))
     }
 
     private fun setupTheme() {
@@ -78,7 +77,7 @@ class ViewOrderActivity : AppCompatActivity() {
             }
         }
 
-        if (AppData.user.isProducer()) {
+        if (AppData.user.isProducer() && order.isPending()) {
             xml.approveBtn.visibility = View.VISIBLE
             xml.approveBtn.setOnClickListener {
                 approveOrder()
@@ -100,7 +99,7 @@ class ViewOrderActivity : AppCompatActivity() {
                 val result = Api.getData(response)
                 Debug(this, "result -> $result").debug()
                 if (response.isSuccessful) {
-                    showDialogSuccess("Parabéns", "A encomenda foi cancelada com sucesso")
+                    showDialogSuccess("A encomenda foi cancelada com sucesso")
                 } else {
                     showDialogError("Erro", "Não foi possivel cancelar a encomenda")
                 }
@@ -115,7 +114,7 @@ class ViewOrderActivity : AppCompatActivity() {
             val result = Api.getData(response)
             Debug(this, "result -> $result").debug()
             if (response.isSuccessful) {
-                showDialogSuccess("Parabéns", "A encomenda foi aprovada com sucesso")
+                showDialogSuccess("A encomenda foi aprovada com sucesso")
             } else {
                 showDialogError("Erro", "Não foi possivel aprovar a encomenda")
             }
@@ -127,10 +126,10 @@ class ViewOrderActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun showDialogSuccess(title: String, message: String) {
+    private fun showDialogSuccess(message: String) {
         val dialog = DialogFragment(
             this,
-            title,
+            "Parabéns",
             message,
             R.drawable.ic_round_check_circle_24
         )

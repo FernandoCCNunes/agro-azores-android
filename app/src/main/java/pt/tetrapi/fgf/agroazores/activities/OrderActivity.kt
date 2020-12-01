@@ -44,7 +44,6 @@ class OrderActivity : AppCompatActivity() {
         setupContent()
         setupFooter()
         setupTheme()
-        showPurchaseFailed()
     }
 
     private fun setupToolbar () {

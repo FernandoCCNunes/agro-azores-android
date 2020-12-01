@@ -24,6 +24,8 @@ import pt.tetrapi.fgf.agroazores.interfaces.CatalogInterface
 import pt.tetrapi.fgf.agroazores.network.Api
 import pt.tetrapi.fgf.agroazores.objects.Constants
 import pt.tetrapi.fgf.agroazores.objects.RequestCodes
+import pt.tetrapi.fgf.agroazores.utility.getDate
+import pt.tetrapi.fgf.agroazores.utility.translateDate
 
 class CatalogFutureFragment : Fragment() {
 
@@ -50,11 +52,11 @@ class CatalogFutureFragment : Fragment() {
         CoroutineScope(Dispatchers.Main).launch {
             setLoadingView()
             if (AppData.user.isRetailer()) {
-                AppData.user.getAvailableStockForProduct(parent.selectedProduct.id)
+                AppData.user.getFutureStockForProduct(parent.selectedProduct.id)
             }
 
             if (AppData.user.isProducer()) {
-                AppData.user.getStockAvailable()
+                AppData.user.getStockFuture()
             }
 
             if (AppData.user.stockFuture.isEmpty()) {
@@ -144,7 +146,7 @@ class CatalogFutureFragment : Fragment() {
             Glide.with(holder.xml.image).load(Api.getUrl(stock.product.image)).into(holder.xml.image)
             holder.xml.product.text = stock.product.name
             holder.xml.dateKey.text = "Disponível:"
-            holder.xml.dateValue.text = stock.date
+            holder.xml.dateValue.text = translateDate(getDate(stock.date, "yyyy-MM-dd HH:mm:ss"))
             holder.xml.price.text = stock.priceString
             holder.xml.quantity.text = stock.quantityLeftString
         }
@@ -155,7 +157,7 @@ class CatalogFutureFragment : Fragment() {
 
             Glide.with(holder.xml.image).load(Api.getUrl(product.image)).into(holder.xml.image)
             holder.xml.producer.text = product.name
-            holder.xml.date.text = stock.date
+            holder.xml.date.text = translateDate(getDate(stock.date, "yyyy-MM-dd HH:mm:ss"))
             holder.xml.price.text = stock.priceString
             holder.xml.quantity.text = stock.quantityLeftString
 

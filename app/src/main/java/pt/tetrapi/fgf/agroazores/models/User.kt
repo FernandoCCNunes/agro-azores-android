@@ -63,7 +63,7 @@ data class User(
         val result = Api.getData(response)
         if (response.isSuccessful) {
             Debug(this, "getStockForProduct success -> $result").debug()
-            stockAvailable = Api.gson.fromJson(result , Array<Stock>::class.java).toList()
+            stockFuture = Api.gson.fromJson(result , Array<Stock>::class.java).toList()
         }
     }
 

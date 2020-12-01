@@ -17,7 +17,7 @@
         android:elevation="25dp"
         app:navigationIcon="@drawable/ic_outline_arrow_back_24"
         app:navigationIconTint="@color/white"
-        app:title="Visualização de produto"
+        app:title="Visualização de compra"
         app:titleTextColor="@color/white"/>
 
     <RelativeLayout

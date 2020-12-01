@@ -1,7 +1,5 @@
 package pt.tetrapi.fgf.agroazores.network
 
-import android.content.Context
-import android.util.Log
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
 import com.nando.debug.Debug
@@ -31,7 +29,7 @@ object Api {
         .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
         .create()
 
-    const val host = "https://ap7qdckhwu.sharedwithexpose.com"
+    const val host = "http://e55ed95d6396.ngrok.io"
 
     fun JSONObject.toRequestBody(): RequestBody {
         return toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
@@ -213,7 +211,7 @@ object Api {
     }
 
     suspend fun purchaseStock(id: Int, json: JSONObject): Response {
-        Debug(this, "requesting createStock() id -> $id, json -> $json").debug()
+        Debug(this, "requesting purchaseStock() id -> $id, json -> $json").debug()
         val request = Request
             .Builder()
             .url(getUrl("/api/stock/$id"))

@@ -20,6 +20,8 @@ import pt.tetrapi.fgf.agroazores.databinding.*
 import pt.tetrapi.fgf.agroazores.network.Api
 import pt.tetrapi.fgf.agroazores.objects.Constants
 import pt.tetrapi.fgf.agroazores.objects.RequestCodes
+import pt.tetrapi.fgf.agroazores.utility.getDate
+import pt.tetrapi.fgf.agroazores.utility.translateDate
 
 class OrdersConcludedFragment : Fragment() {
 
@@ -115,7 +117,7 @@ class OrdersConcludedFragment : Fragment() {
                 holder.xml.entityValue.text = order.stock.user.company.name
             }
 
-            holder.xml.date.text = order.date
+            holder.xml.date.text = translateDate(getDate(order.date, "yyyy-MM-dd HH:mm:ss"))
             holder.xml.value.text = order.priceString
 
             holder.itemView.setOnClickListener {

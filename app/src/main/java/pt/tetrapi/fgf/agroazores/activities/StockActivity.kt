@@ -75,7 +75,7 @@ class StockActivity : FragmentActivity() {
             xml.quantity.setText(it.quantityLeft.toString())
             xml.minQuantity.setText(it.minPurchase.toString())
             xml.price.setText(it.price.toString())
-            xml.date.setText(it.date)
+            xml.date.setText(translateDate(getDate(it.date, "yyyy-MM-dd HH:mm:ss")))
         }
 
         xml.dateOverlay.setOnClickListener {
@@ -143,7 +143,7 @@ class StockActivity : FragmentActivity() {
             .put("quantity", quantity)
             .put("price", price)
 
-        if (dateString.isNotEmpty()) json.put("stock_date", dateString)
+        if (dateString.isNotEmpty()) json.put("stock_date", translateDate(getDate(dateString), "yyyy-MM-dd"))
         if (minQuantityString.isNotEmpty()) json.put("min_quantity", minQuantityString)
 
         return json
@@ -181,7 +181,7 @@ class StockActivity : FragmentActivity() {
             .put("quantity", quantity)
             .put("price", price)
 
-        if (dateString.isNotEmpty()) json.put("stock_date", dateString)
+        if (dateString.isNotEmpty()) json.put("stock_date", translateDate(getDate(dateString), "yyyy-MM-dd"))
         if (minQuantityString.isNotEmpty()) json.put("min_quantity", minQuantityString)
 
         CoroutineScope(Dispatchers.Main).launch {
@@ -231,7 +231,7 @@ class StockActivity : FragmentActivity() {
                 if (response.isSuccessful) {
                     showDialogSuccess("Parabéns", "O seu produto foi atualizado com sucesso")
                 } else {
-                    showDialogSuccess("Erro", "Ocorreu um erro a atualizar o seu produto")
+                    showDialogError("Erro", "Ocorreu um erro a atualizar o seu produto")
                 }
             }
         }

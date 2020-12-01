@@ -36,8 +36,12 @@ class LoginActivity: FragmentActivity() {
     private fun setupLoginButton() {
         xml.loginBtn.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
-                // seller -> 5 buyer -> 15
-                val response = Api.getUser(5)
+                val userId = if(xml.email.text.toString() == "Terra Verde") {
+                    15
+                } else {
+                    5
+                }
+                val response = Api.getUser(userId)
                 val result = Api.getData(response)
                 if (response.isSuccessful) {
                     AppData.user = User.fromJson(result)

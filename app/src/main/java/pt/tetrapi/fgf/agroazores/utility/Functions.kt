@@ -91,8 +91,8 @@ fun translateDate(year: Int, monthOfYear: Int, dayOfMonth: Int, pattern: String 
 
 fun translateDate(cal: Calendar, pattern: String = "dd, MMMM yyyy"): String {
     val year = cal.get(Calendar.YEAR)
-    val dayOfMonth = cal.get(Calendar.MONTH)
-    val monthOfYear = cal.get(Calendar.DAY_OF_MONTH)
+    val monthOfYear = cal.get(Calendar.MONTH) + 1
+    val dayOfMonth = cal.get(Calendar.DAY_OF_MONTH)
     val inFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     cal.time = inFormat.parse("$dayOfMonth/$monthOfYear/$year")!!
     val outFormat = SimpleDateFormat(pattern, Locale.getDefault())

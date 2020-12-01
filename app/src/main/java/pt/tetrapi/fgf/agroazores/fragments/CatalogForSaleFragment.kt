@@ -22,6 +22,8 @@ import pt.tetrapi.fgf.agroazores.interfaces.CatalogInterface
 import pt.tetrapi.fgf.agroazores.network.Api
 import pt.tetrapi.fgf.agroazores.objects.Constants
 import pt.tetrapi.fgf.agroazores.objects.RequestCodes
+import pt.tetrapi.fgf.agroazores.utility.getDate
+import pt.tetrapi.fgf.agroazores.utility.translateDate
 
 
 class CatalogForSaleFragment : Fragment(), CatalogInterface {
@@ -143,7 +145,7 @@ class CatalogForSaleFragment : Fragment(), CatalogInterface {
 
             Glide.with(holder.xml.image).load(Api.getUrl(product.image)).into(holder.xml.image)
             holder.xml.product.text = product.name
-            holder.xml.dateValue.text = stock.date
+            holder.xml.dateValue.text = translateDate(getDate(stock.date, "yyyy-MM-dd HH:mm:ss"))
             holder.xml.price.text = stock.priceString
             holder.xml.quantity.text = stock.quantityLeftString
 
@@ -163,7 +165,7 @@ class CatalogForSaleFragment : Fragment(), CatalogInterface {
 
             Glide.with(holder.xml.image).load(Api.getUrl(product.image)).into(holder.xml.image)
             holder.xml.producer.text = product.name
-            holder.xml.date.text = stock.date
+            holder.xml.date.text = translateDate(getDate(stock.date, "yyyy-MM-dd HH:mm:ss"))
             holder.xml.price.text = stock.priceString
             holder.xml.quantity.text = stock.quantityLeftString
 
