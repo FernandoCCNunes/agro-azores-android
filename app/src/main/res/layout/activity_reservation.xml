@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".activities.OrderActivity">
+
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:background="@color/colorPrimaryDark"
+        android:elevation="25dp"
+        app:navigationIcon="@drawable/ic_outline_arrow_back_24"
+        app:navigationIconTint="@color/white"
+        app:title="Efetuar Reserva"
+        app:titleTextColor="@color/white"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="291dp">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:scaleType="centerCrop"
+            android:background="@color/colorLightGrey"/>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/nameContainer"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardBackgroundColor="@color/colorLightGreen"
+            app:cardElevation="4dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="14dp">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/colorBlack"/>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </RelativeLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardCornerRadius="8dp"
+        app:cardBackgroundColor="@color/colorCardBackground"
+        app:cardElevation="4dp"
+        android:layout_marginTop="8dp">
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            app:justifyContent="space_between"
+            app:flexWrap="nowrap">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Unidade de venda"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack54Percent"
+                android:layout_gravity="start"
+                android:layout_marginStart="16dp"/>
+
+            <TextView
+                android:id="@+id/unit"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Kilograma"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"
+                android:layout_marginEnd="16dp"/>
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                app:cardCornerRadius="8dp"
+                app:strokeColor="@color/colorBlack54Percent"
+                app:strokeWidth="2dp"
+                app:cardElevation="4dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/priceLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:endIconDrawable="@drawable/ic_baseline_euro_24"
+                    app:endIconTint="@color/colorBlack54Percent"
+                    app:endIconMode="custom"
+                    app:hintTextColor="@color/colorBlack54Percent"
+                    android:hint="Preço a pagar">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/price"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textSize="14sp"
+                        android:textColor="@color/colorBlack"
+                        android:inputType="numberDecimal"
+                        android:imeOptions="actionDone"
+                        android:gravity="center"
+                        android:background="@color/white"
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                app:cardCornerRadius="8dp"
+                app:strokeColor="@color/colorBlack54Percent"
+                app:strokeWidth="2dp"
+                app:cardElevation="4dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:endIconDrawable="@drawable/ic_outline_plus_one_24"
+                    app:endIconTint="@color/colorBlack54Percent"
+                    app:endIconMode="custom"
+                    app:hintTextColor="@color/colorBlack54Percent"
+                    android:hint="Quantidade a reservar">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/quantity"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textSize="14sp"
+                        android:textColor="@color/colorBlack"
+                        android:inputType="numberDecimal"
+                        android:imeOptions="actionDone"
+                        android:gravity="center"
+                        android:background="@color/white"
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="8dp"
+                app:cardBackgroundColor="@color/colorCardBackground"
+                app:cardElevation="4dp"
+                android:layout_marginTop="8dp">
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    app:justifyContent="space_between"
+                    app:flexWrap="nowrap">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Preço total a pagar:"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorBlack54Percent"
+                        android:layout_gravity="start"
+                        android:layout_marginStart="16dp"/>
+
+                    <TextView
+                        android:id="@+id/totalPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorBlack"
+                        android:text="€0.00"
+                        android:layout_marginEnd="16dp"/>
+
+                </com.google.android.flexbox.FlexboxLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/reservationBtn"
+                android:layout_width="match_parent"
+                android:layout_height="62dp"
+                android:text="Efetuar Reserva"
+                android:textColor="@color/colorDarkGreen"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/colorDarkGreen"
+                app:icon="@drawable/ic_outline_receipt_long_black_24dp"
+                app:iconGravity="end"
+                app:iconTint="@color/colorDarkGreen"
+                app:elevation="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                app:backgroundTint="@color/colorLightGreen"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

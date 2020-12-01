@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".activities.OrderActivity">
+
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:background="@color/colorPrimaryDark"
+        android:elevation="25dp"
+        app:navigationIcon="@drawable/ic_outline_arrow_back_24"
+        app:navigationIconTint="@color/white"
+        app:title="Novo Produto"
+        app:titleTextColor="@color/white"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="291dp"
+        android:background="@android:color/transparent"
+        android:elevation="8dp">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:scaleType="centerCrop"
+            android:background="@color/colorLightGrey"/>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/nameContainer"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardBackgroundColor="@color/colorLightGreen"
+            app:cardElevation="4dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="14dp">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/colorBlack"/>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:flexWrap="nowrap"
+            app:justifyContent="space_evenly"
+            android:layout_alignParentBottom="true">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/removeBtn"
+                android:layout_width="match_parent"
+                android:layout_height="62dp"
+                android:text="Remover"
+                android:textColor="@color/colorDarkRed"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/colorDarkRed"
+                app:icon="@drawable/ic_baseline_close_24"
+                app:iconGravity="end"
+                app:iconTint="@color/colorDarkRed"
+                app:elevation="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                app:backgroundTint="@color/colorLightRed"
+                />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/saveBtn"
+                android:layout_width="match_parent"
+                android:layout_height="62dp"
+                android:text="Guardar"
+                android:textColor="@color/colorDarkGreen"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/colorDarkGreen"
+                app:icon="@drawable/ic_baseline_check_24"
+                app:iconGravity="end"
+                app:iconTint="@color/colorDarkGreen"
+                app:elevation="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                app:backgroundTint="@color/colorLightGreen"
+                />
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:layout_marginTop="-42dp"
+            android:paddingTop="42dp"
+            android:layout_above="@+id/footer">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    app:cardCornerRadius="8dp"
+                    app:strokeColor="@color/colorBlack54Percent"
+                    app:strokeWidth="2dp"
+                    app:cardElevation="4dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:endIconDrawable="@drawable/ic_outline_plus_one_24"
+                        app:endIconTint="@color/colorBlack54Percent"
+                        app:endIconMode="custom"
+                        app:hintTextColor="@color/colorBlack54Percent"
+                        android:hint="Quantidade disponível">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/quantity"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="14sp"
+                            android:textColor="@color/colorBlack"
+                            android:inputType="numberDecimal"
+                            android:imeOptions="actionDone"
+                            android:gravity="center"
+                            android:background="@color/white"
+                            />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    app:cardCornerRadius="8dp"
+                    app:strokeColor="@color/colorBlack54Percent"
+                    app:strokeWidth="2dp"
+                    app:cardElevation="4dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:endIconDrawable="@drawable/ic_outline_plus_one_24"
+                        app:endIconTint="@color/colorBlack54Percent"
+                        app:endIconMode="custom"
+                        app:hintTextColor="@color/colorBlack54Percent"
+                        android:hint="Quantidade miníma">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/minQuantity"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="14sp"
+                            android:textColor="@color/colorBlack"
+                            android:inputType="numberDecimal"
+                            android:imeOptions="actionDone"
+                            android:gravity="center"
+                            android:background="@color/white"
+                            />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    app:cardCornerRadius="8dp"
+                    app:strokeColor="@color/colorBlack54Percent"
+                    app:strokeWidth="2dp"
+                    app:cardElevation="4dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:endIconDrawable="@drawable/ic_baseline_euro_24"
+                        app:endIconTint="@color/colorBlack54Percent"
+                        app:endIconMode="custom"
+                        app:hintTextColor="@color/colorBlack54Percent"
+                        android:hint="Preço a pagar">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/price"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="14sp"
+                            android:textColor="@color/colorBlack"
+                            android:inputType="numberDecimal"
+                            android:imeOptions="actionDone"
+                            android:gravity="center"
+                            android:background="@color/white"
+                            />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    app:cardCornerRadius="8dp"
+                    app:strokeColor="@color/colorBlack54Percent"
+                    app:strokeWidth="2dp"
+                    app:cardElevation="4dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:endIconDrawable="@drawable/ic_baseline_calendar_today_24"
+                            app:endIconTint="@color/colorBlack54Percent"
+                            app:endIconMode="custom"
+                            app:hintTextColor="@color/colorBlack54Percent"
+                            android:hint="Data de dísponibilidade">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/date"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:textSize="14sp"
+                                android:textColor="@color/colorBlack"
+                                android:inputType="numberDecimal"
+                                android:imeOptions="actionDone"
+                                android:gravity="center"
+                                android:background="@color/white"
+                                />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <FrameLayout
+                            android:id="@+id/dateOverlay"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
+
+                    </RelativeLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </RelativeLayout>
+
+</LinearLayout>

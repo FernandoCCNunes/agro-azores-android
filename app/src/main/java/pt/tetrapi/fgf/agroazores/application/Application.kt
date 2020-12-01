@@ -7,11 +7,9 @@ import com.nando.debug.settings.DebuggerSettings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import pt.tetrapi.fgf.agroazores.AppData
+import pt.tetrapi.fgf.agroazores.objects.AppData
 import pt.tetrapi.fgf.agroazores.BuildConfig
 import pt.tetrapi.fgf.agroazores.models.Product
-import pt.tetrapi.fgf.agroazores.models.User
 import pt.tetrapi.fgf.agroazores.network.Api
 
 /**

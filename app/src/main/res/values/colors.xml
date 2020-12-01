@@ -5,23 +5,38 @@
     <color name="colorAccent">#03DAC5</color>
 
 
-    <color name="colorLightGreen">#DDFFE7</color>
+
 
     <color name="colorBackground">#F5F5F5</color>
 
-    <color name="colorBlack3Percent">#08000000</color>
 
-    <color name="colorBlack10Percent">#1A000000</color>
 
     <color name="light_button_background">#DDFFE7</color>
 
     <color name="white">#fff</color>
     <color name="white_54">#8AFFFFFF</color>
 
-    <color name="card_color">#F0F0F0</color>
+    <color name="colorCardBackground">#F0F0F0</color>
 
     <color name="dark_grey">#202020</color>
     <color name="colorLightGrey">#D6D6D6</color>
-    <color name="black">#000</color>
-    <color name="black_54">#8A000000</color>
+
+    <color name="colorDarkGrey">#393939</color>
+
+
+    <color name="colorBlack">#000</color>
+    <color name="colorBlack3Percent">#08000000</color>
+    <color name="colorBlack10Percent">#1A000000</color>
+    <color name="colorBlack15Percent">#26000000</color>
+    <color name="colorBlack54Percent">#8A000000</color>
+
+    <color name="colorLightGreen">#DDFFE7</color>
+    <color name="colorDarkGreen">#00A32E</color>
+
+    <color name="colorLightRed">#FDAAAA</color>
+    <color name="colorDarkRed">#B21313</color>
+
+    <color name="colorYellowDark">#D68D00</color>
+
+
 </resources>

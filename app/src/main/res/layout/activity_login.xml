@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             app:cardCornerRadius="8dp"
-            app:strokeColor="@color/black_54"
+            app:strokeColor="@color/colorBlack54Percent"
             app:strokeWidth="1dp"
             app:cardBackgroundColor="@color/white">
 
@@ -37,9 +37,9 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="16dp"
                     android:text="fernandocruznunes@enta.pt"
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorBlack"
                     android:hint="Email"
-                    android:textColorHint="@color/black_54"/>
+                    android:textColorHint="@color/colorBlack54Percent"/>
 
             </LinearLayout>
 
@@ -49,7 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             app:cardCornerRadius="8dp"
-            app:strokeColor="@color/black_54"
+            app:strokeColor="@color/colorBlack54Percent"
             app:strokeWidth="1dp"
             app:cardBackgroundColor="@color/white"
             android:layout_marginTop="16dp">
@@ -71,9 +71,9 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="16dp"
                     android:text="fernandocruznunes@enta.pt"
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorBlack"
                     android:hint="Email"
-                    android:textColorHint="@color/black_54"
+                    android:textColorHint="@color/colorBlack54Percent"
                     android:inputType="textPassword"/>
 
             </LinearLayout>

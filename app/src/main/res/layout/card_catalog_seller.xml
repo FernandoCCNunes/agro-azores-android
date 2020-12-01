@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="8dp"
-    app:cardBackgroundColor="@color/card_color"
+    app:cardBackgroundColor="@color/colorCardBackground"
     app:cardUseCompatPadding="true"
     app:cardElevation="4dp">
 
@@ -50,7 +50,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Potato"
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorBlack"
                     android:textStyle="bold"
                     android:layout_marginStart="4dp"/>
 
@@ -72,7 +72,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="À uma semana"
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorBlack"
                     android:layout_marginStart="4dp"/>
 
             </LinearLayout>
@@ -92,7 +92,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="15€/kg"
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorBlack"
                     android:layout_marginStart="4dp"/>
 
             </LinearLayout>
@@ -112,7 +112,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="3000 kilos"
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorBlack"
                     android:layout_marginStart="4dp"/>
 
             </LinearLayout>

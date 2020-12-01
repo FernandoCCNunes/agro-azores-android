@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="8dp"
-    app:cardBackgroundColor="@color/card_color"
+    app:cardBackgroundColor="@color/colorCardBackground"
     app:cardUseCompatPadding="true"
     app:cardElevation="4dp">
 
@@ -50,7 +50,7 @@
                     android:id="@+id/entityValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorBlack"
                     android:textStyle="bold"
                     android:layout_marginStart="4dp"/>
 
@@ -71,7 +71,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="28/11/2020"
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorBlack"
                     android:layout_marginStart="4dp"/>
 
             </LinearLayout>
@@ -91,7 +91,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="10.000€"
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorBlack"
                     android:textStyle="bold"
                     android:layout_marginStart="4dp"/>
 

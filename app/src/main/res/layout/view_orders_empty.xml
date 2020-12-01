@@ -9,7 +9,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="32dp"
         android:src="@drawable/ic_outline_receipt_long_black_24dp"
-        android:tint="@color/black_54"/>
+        android:tint="@color/colorBlack54Percent"/>
 
     <TextView
         android:id="@+id/message"

@@ -49,6 +49,24 @@ data class User(
         }
     }
 
+    suspend fun getAvailableStockForProduct(id: Int) = withContext(Dispatchers.Main) {
+        val response = Api.getAvailableStockForProduct(id)
+        val result = Api.getData(response)
+        if (response.isSuccessful) {
+            Debug(this, "getStockForProduct success -> $result").debug()
+            stockAvailable = Api.gson.fromJson(result , Array<Stock>::class.java).toList()
+        }
+    }
+
+    suspend fun getFutureStockForProduct(id: Int) = withContext(Dispatchers.Main) {
+        val response = Api.getFutureStockForProduct(id)
+        val result = Api.getData(response)
+        if (response.isSuccessful) {
+            Debug(this, "getStockForProduct success -> $result").debug()
+            stockAvailable = Api.gson.fromJson(result , Array<Stock>::class.java).toList()
+        }
+    }
+
     suspend fun getAllStockAvailable() = withContext(Dispatchers.Main) {
         val response = Api.getUserStockAvailable(id)
         val result = Api.getData(response)

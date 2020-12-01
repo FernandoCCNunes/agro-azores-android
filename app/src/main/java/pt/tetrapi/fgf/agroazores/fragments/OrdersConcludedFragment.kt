@@ -1,21 +1,25 @@
 package pt.tetrapi.fgf.agroazores.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.nando.debug.Debug
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import pt.tetrapi.fgf.agroazores.AppData
+import pt.tetrapi.fgf.agroazores.activities.ViewOrderActivity
+import pt.tetrapi.fgf.agroazores.objects.AppData
 import pt.tetrapi.fgf.agroazores.databinding.*
 import pt.tetrapi.fgf.agroazores.network.Api
+import pt.tetrapi.fgf.agroazores.objects.Constants
+import pt.tetrapi.fgf.agroazores.objects.RequestCodes
 
 class OrdersConcludedFragment : Fragment() {
 
@@ -42,7 +46,7 @@ class OrdersConcludedFragment : Fragment() {
         CoroutineScope(Dispatchers.Main).launch {
             setLoadingView()
             AppData.user.getOrdersCompleted()
-            if (AppData.user.stockFuture.isEmpty()) {
+            if (AppData.user.ordersCompleted.isEmpty()) {
                 inflateAndShowEmptyView()
             } else {
                 adapter.notifyDataSetChanged()
@@ -55,7 +59,7 @@ class OrdersConcludedFragment : Fragment() {
 
     private fun setupList() {
         if (!this::adapter.isInitialized) {
-            adapter = Adapter(requireContext())
+            adapter = Adapter(requireActivity())
             xml.list.adapter = adapter
             xml.list.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         }
@@ -88,12 +92,12 @@ class OrdersConcludedFragment : Fragment() {
         }
     }
 
-    class Adapter(private val context: Context): RecyclerView.Adapter<Adapter.ViewHolder>() {
+    class Adapter(private val activity: FragmentActivity): RecyclerView.Adapter<Adapter.ViewHolder>() {
 
         class ViewHolder(val xml: CardOrderPendingBinding): RecyclerView.ViewHolder(xml.root)
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            return ViewHolder(CardOrderPendingBinding.inflate(LayoutInflater.from(context), parent, false))
+            return ViewHolder(CardOrderPendingBinding.inflate(LayoutInflater.from(activity), parent, false))
         }
 
         override fun getItemCount(): Int = AppData.user.ordersCompleted.size
@@ -102,17 +106,24 @@ class OrdersConcludedFragment : Fragment() {
             val order = AppData.user.ordersCompleted[position]
 
             if (AppData.user.isProducer()) {
-                Glide.with(holder.xml.image).load(Api.getUrl(order.buyer.company.image)).into(holder.xml.image)
+                Glide.with(holder.xml.image).load(Api.getUrl(order.stock.product.image)).into(holder.xml.image)
                 holder.xml.entityKey.text = "Revendedor"
                 holder.xml.entityValue.text = order.buyer.company.name
             } else {
-                Glide.with(holder.xml.image).load(Api.getUrl(order.stock.user.company.image)).into(holder.xml.image)
+                Glide.with(holder.xml.image).load(Api.getUrl(order.stock.product.image)).into(holder.xml.image)
                 holder.xml.entityKey.text = "Produtor"
                 holder.xml.entityValue.text = order.stock.user.company.name
             }
 
             holder.xml.date.text = order.date
             holder.xml.value.text = order.priceString
+
+            holder.itemView.setOnClickListener {
+                activity.startActivityForResult(
+                    Intent(activity, ViewOrderActivity::class.java)
+                        .putExtra(Constants.ORDER, order.toJson()),
+                    RequestCodes.VIEW_ORDER_ACTIVITY)
+            }
         }
     }
 

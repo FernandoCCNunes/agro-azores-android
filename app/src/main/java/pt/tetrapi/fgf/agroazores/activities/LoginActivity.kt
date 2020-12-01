@@ -3,13 +3,15 @@ package pt.tetrapi.fgf.agroazores.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.fragment.app.FragmentActivity
 import com.nando.debug.Debug
+import kotlinx.android.synthetic.main.dialog_generic.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import pt.tetrapi.fgf.agroazores.AppData
+import pt.tetrapi.fgf.agroazores.objects.AppData
 import pt.tetrapi.fgf.agroazores.databinding.ActivityLoginBinding
+import pt.tetrapi.fgf.agroazores.dialogs.DialogFragment
 import pt.tetrapi.fgf.agroazores.models.User
 import pt.tetrapi.fgf.agroazores.network.Api
 
@@ -20,7 +22,7 @@ import pt.tetrapi.fgf.agroazores.network.Api
  *
  */
 
-class LoginActivity: Activity() {
+class LoginActivity: FragmentActivity() {
 
     private lateinit var xml: ActivityLoginBinding
 
@@ -34,6 +36,7 @@ class LoginActivity: Activity() {
     private fun setupLoginButton() {
         xml.loginBtn.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
+                // seller -> 5 buyer -> 15
                 val response = Api.getUser(5)
                 val result = Api.getData(response)
                 if (response.isSuccessful) {

@@ -5,8 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import pt.tetrapi.fgf.agroazores.AppData
-import pt.tetrapi.fgf.agroazores.R
+import pt.tetrapi.fgf.agroazores.objects.AppData
 import pt.tetrapi.fgf.agroazores.databinding.FragmentProfileBinding
 
 class ProfileFragment : Fragment() {

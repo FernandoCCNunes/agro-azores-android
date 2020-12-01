@@ -1,4 +1,4 @@
-package pt.tetrapi.fgf.agroazores
+package pt.tetrapi.fgf.agroazores.objects
 
 import pt.tetrapi.fgf.agroazores.models.Product
 import pt.tetrapi.fgf.agroazores.models.User

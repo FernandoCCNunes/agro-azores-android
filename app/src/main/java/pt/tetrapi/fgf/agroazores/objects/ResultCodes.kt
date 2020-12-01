@@ -7,13 +7,10 @@ package pt.tetrapi.fgf.agroazores.objects
  *
  */
 
-object Constants {
+object ResultCodes {
 
-
-
-
-    const val STOCK = "STOCK"
-    const val PRODUCT = "PRODUCT"
-    const val ORDER = "ORDER"
+    const val OK = 100
+    const val CANCEL = 101
+    const val ERROR = 102
 
 }

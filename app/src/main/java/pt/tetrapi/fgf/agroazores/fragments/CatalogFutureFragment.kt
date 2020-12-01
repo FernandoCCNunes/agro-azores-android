@@ -10,12 +10,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.nando.debug.Debug
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import pt.tetrapi.fgf.agroazores.AppData
-import pt.tetrapi.fgf.agroazores.activities.CreateReservationActivity
+import pt.tetrapi.fgf.agroazores.objects.AppData
+import pt.tetrapi.fgf.agroazores.activities.OrderActivity
+import pt.tetrapi.fgf.agroazores.activities.ReservationActivity
 import pt.tetrapi.fgf.agroazores.databinding.FragmentCatalogInProductionBinding
 import pt.tetrapi.fgf.agroazores.databinding.ViewCatalogBuyerEmptyBinding
 import pt.tetrapi.fgf.agroazores.databinding.ViewCatalogSellerEmptyBinding
@@ -23,6 +23,7 @@ import pt.tetrapi.fgf.agroazores.databinding.ViewLoadingBinding
 import pt.tetrapi.fgf.agroazores.interfaces.CatalogInterface
 import pt.tetrapi.fgf.agroazores.network.Api
 import pt.tetrapi.fgf.agroazores.objects.Constants
+import pt.tetrapi.fgf.agroazores.objects.RequestCodes
 
 class CatalogFutureFragment : Fragment() {
 
@@ -48,7 +49,14 @@ class CatalogFutureFragment : Fragment() {
     fun getStockFuture() {
         CoroutineScope(Dispatchers.Main).launch {
             setLoadingView()
-            AppData.user.getStockFuture()
+            if (AppData.user.isRetailer()) {
+                AppData.user.getAvailableStockForProduct(parent.selectedProduct.id)
+            }
+
+            if (AppData.user.isProducer()) {
+                AppData.user.getStockAvailable()
+            }
+
             if (AppData.user.stockFuture.isEmpty()) {
                 if (AppData.user.isRetailer()) {
                     inflateAndShowRetailerEmptyView()
@@ -78,11 +86,7 @@ class CatalogFutureFragment : Fragment() {
         if (AppData.user.ordersPending.isEmpty()) {
             xml.emptyCatalogView.removeAllViews()
             val xml = ViewLoadingBinding.inflate(LayoutInflater.from(requireContext()), xml.emptyCatalogView, true)
-            xml.message.text = if (parent.selectedProduct != null) {
-                "Buscando stock de  ${parent.selectedProduct!!.name} disponível"
-            } else {
-                "Buscando stock disponível"
-            }
+            xml.message.text = "Buscando stock de  ${parent.selectedProduct!!.name} disponível"
             if (this.xml.root.nextView == this.xml.root.getChildAt(1)) {
                 this.xml.root.showNext()
             }
@@ -92,13 +96,11 @@ class CatalogFutureFragment : Fragment() {
     private fun inflateAndShowRetailerEmptyView() {
         xml.emptyCatalogView.removeAllViews()
         val xml = ViewCatalogBuyerEmptyBinding.inflate(LayoutInflater.from(requireContext()), this.xml.emptyCatalogView, true)
-        xml.catalogMessage.text = if (parent.selectedProduct == null) {
-            "Não existe stock disponível"
-        } else {
-            "Não existe stock de ${parent.selectedProduct!!.name}s disponível"
-        }
+        xml.catalogMessage.text = "Não existe stock de ${parent.selectedProduct.name}s disponível"
         xml.makeReservation.setOnClickListener {
-            // Add New create reservation for product
+            startActivityForResult(Intent(requireContext(), ReservationActivity::class.java)
+                .putExtra(Constants.PRODUCT, parent.selectedProduct.toJson()),
+                RequestCodes.RESERVATION_ACTIVITY)
         }
         if (this.xml.root.nextView == this.xml.root.getChildAt(1)) {
             this.xml.root.showNext()
@@ -149,9 +151,10 @@ class CatalogFutureFragment : Fragment() {
 
         private fun onBindViewHolder(holder: CatalogInterface.ViewHolder.BuyerViewHolder, position: Int) {
             val stock = AppData.user.stockFuture[position]
+            val product = fragment.parent.selectedProduct
 
-            Glide.with(holder.xml.image).load(Api.getUrl(stock.product.image)).into(holder.xml.image)
-            holder.xml.producer.text = stock.product.name
+            Glide.with(holder.xml.image).load(Api.getUrl(product.image)).into(holder.xml.image)
+            holder.xml.producer.text = product.name
             holder.xml.date.text = stock.date
             holder.xml.price.text = stock.priceString
             holder.xml.quantity.text = stock.quantityLeftString
@@ -160,9 +163,10 @@ class CatalogFutureFragment : Fragment() {
                 fragment.requireContext().startActivity(
                     Intent(
                         fragment.requireContext(),
-                        CreateReservationActivity::class.java
+                        OrderActivity::class.java
                     )
                         .putExtra(Constants.STOCK, stock.toJson())
+                        .putExtra(Constants.PRODUCT, product.toJson())
                 )
             }
         }

@@ -31,7 +31,7 @@ object Api {
         .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
         .create()
 
-    const val host = "https://w20piza9wn.sharedwithexpose.com"
+    const val host = "https://ap7qdckhwu.sharedwithexpose.com"
 
     fun JSONObject.toRequestBody(): RequestBody {
         return toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
@@ -93,6 +93,28 @@ object Api {
         return withContext(Dispatchers.IO) { client.newCall(request).await() }
     }
 
+    suspend fun approveOrder(id: Int): Response {
+        Debug(this, "approveOrder -> $id").debug()
+        val request = Request
+            .Builder()
+            .url(getUrl("/api/orders/$id/approve"))
+            .get()
+            .build()
+
+        return withContext(Dispatchers.IO) { client.newCall(request).await() }
+    }
+
+    suspend fun cancelOrder(id: Int): Response {
+        Debug(this, "approveOrder -> $id").debug()
+        val request = Request
+            .Builder()
+            .url(getUrl("/api/orders/$id/cancel"))
+            .get()
+            .build()
+
+        return withContext(Dispatchers.IO) { client.newCall(request).await() }
+    }
+
     suspend fun getUserStock(id: Int): Response {
         val request = Request
             .Builder()
@@ -114,10 +136,22 @@ object Api {
         return withContext(Dispatchers.IO) { client.newCall(request).await() }
     }
 
-    suspend fun getProductStockAvailable(productId: Int): Response {
+    suspend fun getAvailableStockForProduct(id: Int): Response {
+        Debug(this, "requesting getProductStockAvailable() Url -> ${getUrl("/api/products/$id/stock?available=true&order=date&order_type=desc")}").debug()
         val request = Request
             .Builder()
-            .url(getUrl("/api/products/$productId/stock/available"))
+            .url(getUrl("/api/products/$id/stock?available=true&order=date&order_type=desc"))
+            .get()
+            .build()
+
+        return withContext(Dispatchers.IO) { client.newCall(request).await() }
+    }
+
+    suspend fun getFutureStockForProduct(id: Int): Response {
+        Debug(this, "requesting getProductStockAvailable() Url -> ${getUrl("/api/products/$id/stock?available=false&order=date&order_type=desc")}").debug()
+        val request = Request
+            .Builder()
+            .url(getUrl("/api/products/$id/stock?available=false&order=date&order_type=desc"))
             .get()
             .build()
 
@@ -146,10 +180,54 @@ object Api {
     }
 
     suspend fun createStock(json: JSONObject): Response {
-        Debug(this, "requesting createStock").debug()
+        Debug(this, "requesting createStock() json -> $json").debug()
         val request = Request
             .Builder()
             .url(getUrl("/api/stock"))
+            .post(json.toRequestBody())
+            .build()
+
+        return withContext(Dispatchers.IO) { client.newCall(request).await() }
+    }
+
+    suspend fun removeStock(id: Int): Response {
+        Debug(this, "requesting removeStock() id -> $id").debug()
+        val request = Request
+            .Builder()
+            .url(getUrl("/api/stock/$id"))
+            .delete()
+            .build()
+
+        return withContext(Dispatchers.IO) { client.newCall(request).await() }
+    }
+
+    suspend fun updateStock(id: Int, json: JSONObject): Response {
+        Debug(this, "requesting updateStock() id -> $id, json -> $json").debug()
+        val request = Request
+            .Builder()
+            .url(getUrl("/api/stock/$id"))
+            .patch(json.toRequestBody())
+            .build()
+
+        return withContext(Dispatchers.IO) { client.newCall(request).await() }
+    }
+
+    suspend fun purchaseStock(id: Int, json: JSONObject): Response {
+        Debug(this, "requesting createStock() id -> $id, json -> $json").debug()
+        val request = Request
+            .Builder()
+            .url(getUrl("/api/stock/$id"))
+            .post(json.toRequestBody())
+            .build()
+
+        return withContext(Dispatchers.IO) { client.newCall(request).await() }
+    }
+
+    suspend fun reserveProduct(id: Int, json: JSONObject): Response {
+        Debug(this, "requesting reserveProduct() id -> $id, json -> $json").debug()
+        val request = Request
+            .Builder()
+            .url(getUrl("/api/products/$id"))
             .post(json.toRequestBody())
             .build()
 

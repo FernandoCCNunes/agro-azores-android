@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="8dp"
-    app:cardBackgroundColor="@color/card_color"
+    app:cardBackgroundColor="@color/colorCardBackground"
     app:cardUseCompatPadding="true"
     app:cardElevation="4dp">
 
@@ -49,7 +49,7 @@
                     android:id="@+id/producer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorBlack"
                     android:textStyle="bold"
                     android:layout_marginStart="4dp"/>
 
@@ -69,7 +69,7 @@
                     android:id="@+id/date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorBlack"
                     android:layout_marginStart="4dp"/>
 
             </LinearLayout>
@@ -88,7 +88,7 @@
                     android:id="@+id/price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorBlack"
                     android:layout_marginStart="4dp"/>
 
             </LinearLayout>
@@ -108,7 +108,7 @@
                     android:id="@+id/quantity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorBlack"
                     android:layout_marginStart="4dp"/>
 
             </LinearLayout>

@@ -9,16 +9,13 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentStatePagerAdapter
-import androidx.lifecycle.Lifecycle
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
-import pt.tetrapi.fgf.agroazores.AppData
-import pt.tetrapi.fgf.agroazores.activities.NewProductActivity
+import pt.tetrapi.fgf.agroazores.objects.AppData
+import pt.tetrapi.fgf.agroazores.activities.ProductsListActivity
 import pt.tetrapi.fgf.agroazores.databinding.FragmentCatalogBinding
 import pt.tetrapi.fgf.agroazores.models.Product
+import pt.tetrapi.fgf.agroazores.objects.RequestCodes
 import tech.hibk.searchablespinnerlibrary.SearchableItem
 
 
@@ -28,7 +25,7 @@ class CatalogFragment : Fragment() {
 
     private lateinit var adapter: ScreenSlidePagerAdapter
 
-    var selectedProduct: Product? = null
+    var selectedProduct: Product = AppData.products[0]
         set(value) {
             field = value
             refreshLists()
@@ -79,8 +76,8 @@ class CatalogFragment : Fragment() {
             xml.addProductBtn.visibility = View.VISIBLE
             xml.addProductBtn.setOnClickListener {
                 startActivityForResult(
-                    Intent(requireContext(), NewProductActivity::class.java),
-                    100
+                    Intent(requireContext(), ProductsListActivity::class.java),
+                    RequestCodes.PRODUCT_LIST_ACTIVITY
                 )
             }
         }

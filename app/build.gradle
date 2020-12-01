@@ -66,4 +66,6 @@ dependencies {
 
     implementation 'com.github.chivorns.androidx:smartmaterialspinner:1.2.1'
 
+    implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
+
 }

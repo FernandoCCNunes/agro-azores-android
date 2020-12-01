@@ -18,8 +18,17 @@ data class Order(
     val details: List<OrderDetails>,
     val date: String,
     val dateString: String,
-    val priceString: String
+    val priceString: String,
+    val quantity: Int,
+    val quantityString: String
 ) {
+
+    fun toJson(): String {
+        return Api.gson.toJson(this)
+    }
+
+    fun isPending() = status == 0
+    fun isCompleted() = status == 1
 
     companion object {
         fun fromJson(string: String): Order = Api.gson.fromJson(string, Order::class.java)
